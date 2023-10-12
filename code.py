@@ -21,7 +21,7 @@ my_kernel = module.get_function("my_kernel")
 
 # Data on the CPU
 data_cpu_in  = np.random.rand(nelements).astype(np.float32)
-print("Generated random array... ", data_cpu_in)
+print("Generated random array... ", data_cpu_in[:5], "...")
 data_cpu_out = [] 
 
 # CPU version
@@ -34,7 +34,7 @@ for element in data_cpu_in:
 time_end     = dt.datetime.now()
 time_elapsed = time_end - time_start
 print("Done...")
-print("Output array is: ", data_cpu_out)
+print("Output: ", data_cpu_out[:5], "...")
 print("Execution time: ", time_elapsed.microseconds, " mcs")
 
 print("Beginning the execution of the GPU version...")
@@ -57,6 +57,6 @@ cuda.memcpy_dtoh(data_cpu_out, data_gpu_out)
 time_end     = dt.datetime.now()
 time_elapsed = time_end - time_start
 print("Done...")
-print("Output array is: ", data_cpu_out)
+print("Output: ", data_cpu_out[:5], "...")
 print("Execution time: ", time_elapsed.microseconds, " mcs")
 print("Exiting...")
