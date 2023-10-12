@@ -4,6 +4,7 @@ import pycuda.compiler as compiler
 import numpy as np
 import datetime as dt
 import sys
+import pycuda.driver.device_attribute as cuda_constants 
 
 # CUDA kernel function
 source_code = """
@@ -46,8 +47,14 @@ data_gpu_out = cuda.mem_alloc(data_cpu_in.nbytes)
 # Copy data from CPU to GPU
 cuda.memcpy_htod(data_gpu_in, data_cpu_in)
 
+NB = nelements / cuda_constants.MAX_THREADS_PER_BLOCK
+if NB < 1:
+   TPB = nelements
+else:
+   TPB = cuda_constants.MAX_THREADS_PER_BLOCK
+
 # Launch the CUDA kernel
-my_kernel(data_gpu_in, data_gpu_out, block=(nelements, 1, 1), grid=(1, 1))
+my_kernel(data_gpu_in, data_gpu_out, block=(TPB, 1, 1), grid=(NB, 1))
 
 # Copy data back from GPU to CPU
 cuda.memcpy_dtoh(data_cpu_out, data_gpu_out)
