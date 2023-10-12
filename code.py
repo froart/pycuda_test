@@ -36,6 +36,8 @@ print("Execution time: ", time_elapsed.microseconds, " mcs")
 
 print("Beginning the execution of the GPU version...")
 time_start   = dt.datetime.now()
+
+data_cpu_out = np.zeros(100).astype(np.float32)
 # Allocate GPU memory
 data_gpu_in  = cuda.mem_alloc(data_cpu_in.nbytes)
 data_gpu_out = cuda.mem_alloc(data_cpu_in.nbytes)
@@ -54,5 +56,4 @@ time_elapsed = time_end - time_start
 print("Done...")
 print("Output array is: ", data_cpu_out)
 print("Execution time: ", time_elapsed.microseconds, " mcs")
-
 print("Exiting...")
