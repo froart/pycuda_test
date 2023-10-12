@@ -46,7 +46,7 @@ data_gpu_out = cuda.mem_alloc(data_cpu_in.nbytes)
 # Copy data from CPU to GPU
 cuda.memcpy_htod(data_gpu_in, data_cpu_in)
 
-NB = nelements / cuda.device_attribute.MAX_THREADS_PER_BLOCK
+NB = int(nelements / cuda.device_attribute.MAX_THREADS_PER_BLOCK)
 if NB < 1:
    TPB = nelements
 else:
